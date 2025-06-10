@@ -9,9 +9,16 @@ public class Main {
         str = str.toUpperCase();
         c = Character.toUpperCase(c);
 
-        for (int i = 0; i < str.length(); i++) {
-            if (str.charAt(i) == c) answer++;
+        // 1. 인덱스로 접근
+//        for (int i = 0; i < str.length(); i++) {
+//            if (str.charAt(i) == c) answer++;
+//        }
+
+        // 2. advanced-for
+        for (char t : str.toCharArray()) { // String을 char 배열로 변환
+            if (t == c) answer++;
         }
+
         return answer;
     }
 
