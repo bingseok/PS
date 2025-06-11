@@ -12,7 +12,7 @@ public class Main {
         int left = 0, right = str.length() - 1;
         while (left < right) {
             if (str.charAt(left) != str.charAt(right)) {
-                is = false; 
+                is = false;
                 break;
             }
             left++; right--;
