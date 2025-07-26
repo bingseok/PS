@@ -1,6 +1,5 @@
-package _1158;
+package 연결_리스트_연습문제._1158;
 
-import java.util.*;
 import java.io.*;
 
 public class Main {

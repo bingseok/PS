@@ -1,4 +1,4 @@
-package _1406;
+package 연결_리스트_연습문제._1406;
 
 import java.util.*;
 import java.io.*;
