@@ -15,7 +15,7 @@ public class Main {
                 st.push(Integer.parseInt(cmd.split(" ")[1]));
             }
             else if (cmd.equals("pop")) {
-                if (st.empty()) answer.append(-1).append("\n");
+                if (st.isEmpty()) answer.append(-1).append("\n");
                 else {
                     answer.append(st.peek()).append("\n");
                     st.pop();
@@ -25,10 +25,10 @@ public class Main {
                 answer.append(st.size()).append("\n");
             }
             else if (cmd.equals("empty")) {
-                answer.append(st.empty() ? 1 : 0).append("\n");
+                answer.append(st.isEmpty() ? 1 : 0).append("\n");
             }
             else if (cmd.equals("top")) {
-                answer.append(st.empty() ? -1 : st.peek()).append("\n");
+                answer.append(st.isEmpty() ? -1 : st.peek()).append("\n");
             }
         }
 
