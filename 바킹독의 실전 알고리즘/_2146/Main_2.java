@@ -1,9 +1,9 @@
 package _2146;
 
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main_1 {
+public class Main_2 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
     static int[][] board = new int[102][102];
@@ -15,7 +15,6 @@ public class Main_1 {
     static int n, city = 1, ans = Integer.MAX_VALUE;
 
     public static void main(String[] args) throws IOException {
-        // 입력 받기
         n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
@@ -24,13 +23,12 @@ public class Main_1 {
             }
         }
 
-        // 도시 구분을 위한 인덱싱
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] == 1 && vis[i][j] == 0) {
+                    board[i][j] = city;
                     Q.add(new Pair(i, j));
                     vis[i][j] = 1;
-                    board[i][j] = city;
                     while (!Q.isEmpty()) {
                         Pair cur = Q.peek(); Q.remove();
                         for (int dir = 0; dir < 4; dir++) {
@@ -48,34 +46,30 @@ public class Main_1 {
             }
         }
 
-        // dist 초기화
         for (int i = 0; i < n; i++) Arrays.fill(dist[i], 0, n, -1);
-
-        // 모든 섬에 대해 BFS 진행, escape 변수를 통해 다른 섬에 도착할 경우 큐를 비우고 반복문을 빠져나옴
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (board[i][j] != 0) {
-                    Q.add(new Pair(i, j));
                     dist[i][j] = 0;
-                    boolean escape = false;
-                    while (!Q.isEmpty() && !escape) {
-                        Pair cur = Q.peek(); Q.remove();
-                        for (int dir = 0; dir < 4; dir++) {
-                            int nx = cur.x + dx[dir];
-                            int ny = cur.y + dy[dir];
-                            if (OOB(nx, ny)) continue;
-                            if (dist[nx][ny] != -1 || board[nx][ny] == board[i][j]) continue;
-                            if (board[nx][ny] != 0 && board[nx][ny] != board[i][j]) {
-                                ans = Math.min(ans, dist[cur.x][cur.y]);
-                                escape = true;
-                                Q.clear();
-                                break;
-                            }
-                            Q.add(new Pair(nx, ny));
-                            dist[nx][ny] = dist[cur.x][cur.y] + 1;
-                        }
-                    }
-                    for (int k = 0; k < n; k++) Arrays.fill(dist[k], 0, n, -1);
+                    Q.add(new Pair(i, j));
+                }
+            }
+        }
+
+        while (!Q.isEmpty()) {
+            Pair cur = Q.peek(); Q.remove();
+            for (int dir = 0; dir < 4; dir++) {
+                int nx = cur.x + dx[dir];
+                int ny = cur.y + dy[dir];
+                if (OOB(nx, ny)) continue;
+                if (board[nx][ny] == board[cur.x][cur.y]) continue; // 현재 섬과 같은 경우
+                if (board[nx][ny] != 0) { // 다른 섬을 만난 경우 두 점이 섬으로부터 떨어진 거리를 합함
+                    ans = Math.min(ans, dist[nx][ny] + dist[cur.x][cur.y]);
+                }
+                else { // 바다인 경우, 해당 바다를 섬으로 확장 후 큐에 추가
+                    board[nx][ny] = board[cur.x][cur.y];
+                    Q.add(new Pair(nx, ny));
+                    dist[nx][ny] = dist[cur.x][cur.y] + 1;
                 }
             }
         }
@@ -87,7 +81,7 @@ public class Main_1 {
         return nx < 0 || nx >= n || ny < 0 || ny >= n;
     }
     static class Pair {
-        int x; int y;
+        int x, y;
         Pair(int x, int y) {
             this.x = x; this.y = y;
         }
