@@ -9,7 +9,7 @@ public class Main {
     static int[] dist = new int[100005];
     static int n, k;
     final static int MX = 100000;
-    static Queue<Integer> Q = new ArrayDeque<>();
+    static Queue<Integer> q = new ArrayDeque<>();
 
     static void teleport(int cur) {
         int tmp = cur;
@@ -17,7 +17,7 @@ public class Main {
         while (tmp <= MX && dist[k] == -1) {
             if (dist[tmp] == -1) {
                 dist[tmp] = dist[cur];
-                Q.add(tmp);
+                q.add(tmp);
             }
             tmp *= 2;
         }
@@ -28,21 +28,22 @@ public class Main {
         k = Integer.parseInt(st.nextToken());
 
         Arrays.fill(dist, -1);
-        Q.add(n);
         dist[n] = 0;
+        q.add(n);
         teleport(n);
 
         while (dist[k] == -1) {
-            int cur = Q.peek(); Q.remove();
+            int cur = q.peek(); q.remove();
             int[] dir = {cur+1, cur-1};
-            for (int k: dir) {
+            for (int k : dir) {
                 if (k < 0 || k > MX) continue;
                 if (dist[k] != -1) continue;
                 dist[k] = dist[cur] + 1;
-                Q.add(k);
+                q.add(k);
                 teleport(k);
             }
         }
+
         System.out.print(dist[k]);
     }
 }
