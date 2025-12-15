@@ -8,8 +8,8 @@ public class Main {
     static StringTokenizer st;
     static int[] board = new int[100002];
     static int[] state = new int[100002];
-    static final int NOT_VISITED = 0;
-    static final int IN_CYCLE = -1;
+    final static int NOT_VISITED = 0;
+    final static int IN_CYCLE = -1;
     static int t, n;
 
     public static void main(String[] args) throws IOException {
@@ -20,8 +20,8 @@ public class Main {
             for (int i = 1; i <= n; i++) {
                 board[i] = Integer.parseInt(st.nextToken());
             }
-            Arrays.fill(state, NOT_VISITED);
 
+            Arrays.fill(state, 1, n+1, NOT_VISITED);
             for (int i = 1; i <= n; i++) {
                 if (state[i] == NOT_VISITED) run(i);
             }

@@ -1,18 +1,18 @@
 package BFS_연습문제_2._9466_1;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
     static int[] board = new int[100002];
     static int[] state = new int[100002];
-    static final int NOT_VISITED = 0;
-    static final int VISITED = 1;
-    static final int NOT_IN_CYCLE = 2;
-    static final int IN_CYCLE = 3;
     static int t, n;
+    final static int NOT_VISITED = 0;
+    final static int VISITED = 1;
+    final static int NOT_IN_CYCLE = 2;
+    final static int IN_CYCLE = 3;
 
     public static void main(String[] args) throws IOException {
         t = Integer.parseInt(br.readLine());
@@ -22,7 +22,8 @@ public class Main {
             for (int i = 1; i <= n; i++) {
                 board[i] = Integer.parseInt(st.nextToken());
             }
-            Arrays.fill(state, NOT_VISITED);
+
+            Arrays.fill(state, 1, n+1, NOT_VISITED);
 
             for (int i = 1; i <= n; i++) {
                 if (state[i] == NOT_VISITED) run(i);
@@ -36,38 +37,39 @@ public class Main {
         }
     }
 
-    static void run(int i) {
-        int cur = i;
+    static void run(int x) {
+        int cur = x;
+        state[cur] = VISITED;
         while (true) {
-            state[cur] = VISITED;
             cur = board[cur];
-            if (state[cur] == NOT_IN_CYCLE || state[cur] == IN_CYCLE) {
-                cur = i;
+            if (state[cur] == IN_CYCLE || state[cur] == NOT_IN_CYCLE) {
+                cur = x;
                 while (state[cur] == VISITED) {
                     state[cur] = NOT_IN_CYCLE;
                     cur = board[cur];
                 }
-                return;
+                break;
             }
-            if (state[cur] == VISITED && cur == i) {
-                while (state[cur] != IN_CYCLE) {
+            if (state[cur] == VISITED && cur == x) {
+                while (state[cur] == VISITED) {
                     state[cur] = IN_CYCLE;
                     cur = board[cur];
                 }
-                return;
+                break;
             }
-            if (state[cur] == VISITED && cur != i) {
-                while (state[cur] != IN_CYCLE) {
+            if (state[cur] == VISITED && cur != x) {
+                while (state[cur] == VISITED) {
                     state[cur] = IN_CYCLE;
                     cur = board[cur];
                 }
-                cur = i;
+                cur = x;
                 while (state[cur] != IN_CYCLE) {
                     state[cur] = NOT_IN_CYCLE;
                     cur = board[cur];
                 }
-                return;
+                break;
             }
+            state[cur] = VISITED;
         }
     }
 }
