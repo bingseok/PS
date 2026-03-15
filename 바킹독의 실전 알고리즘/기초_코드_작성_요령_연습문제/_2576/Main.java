@@ -1,26 +1,33 @@
 package 기초_코드_작성_요령_연습문제._2576;
 
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] arg) {
-        Scanner sc = new Scanner(System.in);
-        int[] arr = new int[7];
-        for (int i = 0; i < 7; i++) arr[i] = sc.nextInt();
-        int odd = 0, sum = 0, min = 100;
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static ArrayList<Integer> arr = new ArrayList<>();
+    static int sum;
+
+    public static void main(String[] args) throws IOException {
         for (int i = 0; i < 7; i++) {
-            if (arr[i] % 2 == 1) {
-                odd++;
-                sum += arr[i];
-                if (arr[i] < min) {
-                    min = arr[i];
-                }
+            int cur = Integer.parseInt(br.readLine());
+            if (cur % 2 == 1) {
+                sum += cur;
+                arr.add(cur);
             }
         }
 
-        if (odd == 0) System.out.print(-1);
+        Collections.sort(arr);
+
+        if (arr.size() == 0) sb.append("-1");
         else {
-            System.out.print(sum + "\n" + min);
+            sb.append(sum).append("\n");
+            sb.append(arr.get(0));
         }
+        
+        System.out.print(sb);
     }
+
 }

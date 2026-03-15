@@ -1,17 +1,21 @@
 package 기초_코드_작성_요령_연습문제._1000;
 
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public int solution(int a, int b) {
-        int answer = 0;
-        answer = a + b;
-        return answer;
-    }
-    public static void main(String[] args) {
-        Main T = new Main();
-        Scanner sc = new Scanner(System.in);
-        int a = sc.nextInt(); int b = sc.nextInt();
-        System.out.print(T.solution(a, b));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static int a, b;
+
+    public static void main(String[] args) throws IOException {
+        st = new StringTokenizer(br.readLine());
+        a = Integer.parseInt(st.nextToken());
+        b = Integer.parseInt(st.nextToken());
+
+        sb.append(a+b);
+
+        System.out.print(sb);
     }
 }

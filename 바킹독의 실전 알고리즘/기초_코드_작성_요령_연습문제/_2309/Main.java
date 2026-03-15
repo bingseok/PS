@@ -1,27 +1,42 @@
 package 기초_코드_작성_요령_연습문제._2309;
 
 import java.util.*;
+import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        int[] arr = new int[9];
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static int[] arr = new int[9];
+    static ArrayList<Integer> ans = new ArrayList<>();
+
+    public static void main(String[] args) throws IOException {
         int sum = 0;
         for (int i = 0; i < 9; i++) {
-            arr[i] = sc.nextInt();
-            sum += arr[i];
+            int cur = Integer.parseInt(br.readLine());
+            sum += cur;
+            arr[i] = cur;
         }
-        sum -= 100;
+
         Arrays.sort(arr);
-        for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = i + 1; j < arr.length; j++) {
-                if (arr[i] + arr[j] == sum) {
-                    for (int k = 0; k < arr.length; k++) {
-                        if (k == i || k == j) continue;
-                        System.out.println(arr[k]);
-                    }
+
+        int tar = sum - 100;
+
+        boolean isBreak = false;
+        for (int i = 0; i < 9 && !isBreak; i++) {
+            for (int j = i + 1; j < 9 && !isBreak; j++) {
+                if (arr[i] + arr[j] == tar) {
+                        arr[i] = 0; arr[j] = 0;
+                        isBreak = true;
                 }
             }
         }
+
+        for (int i = 0; i < 9; i++) {
+            if (arr[i] != 0) sb.append(arr[i]).append("\n");
+        }
+
+        System.out.print(sb);
     }
+
 }
