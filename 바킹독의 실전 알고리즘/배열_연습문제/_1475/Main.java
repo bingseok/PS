@@ -1,30 +1,31 @@
 package 배열_연습문제._1475;
 
 import java.util.*;
+import java.io.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
 
-    public int solution(int n) {
-        int answer = 0;
-        int[] board = new int[10];
+    static int[] arr = new int[10];
+    static int n;
+
+    public static void main(String[] args) throws IOException {
+        n = Integer.parseInt(br.readLine());
 
         while (n != 0) {
-            board[n % 10]++;
+            arr[n%10]++;
             n /= 10;
         }
+        arr[9] = (arr[6] + arr[9] + 1) / 2;
+        arr[6] = 0;
 
-        board[6] = board[9] = (board[6] + board[9] + 1) / 2;
-
-        for (int x : board) {
-            answer = Math.max(answer, x);
+        int mx = 0;
+        for (int x : arr) {
+            mx = Math.max(mx, x);
         }
-        return answer;
+        System.out.print(mx);
     }
 
-    public static void main(String[] args) {
-        Main T = new Main();
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        System.out.print(T.solution(n));
-    }
 }
