@@ -4,39 +4,44 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static Deque<Integer> Q = new ArrayDeque<>();
+    static int n;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder answer = new StringBuilder();
-        Queue<Integer> queue = new LinkedList<>();
-        int last = 0;
-        int n = Integer.parseInt(br.readLine());
-        for (int i = 0; i < n; i++) {
-            String cmd = br.readLine();
-            if (cmd.startsWith("push")) {
-                last = Integer.parseInt(cmd.split(" ")[1]);
-                queue.add(last);
+        n = Integer.parseInt(br.readLine());
+        while (n-- > 0) {
+            st = new StringTokenizer(br.readLine());
+            String op = st.nextToken();
+            if (op.equals("push")) {
+                Q.add(Integer.parseInt(st.nextToken()));
             }
-            else if (cmd.equals("pop")) {
-                if (queue.isEmpty()) answer.append(-1);
+            else if (op.equals("pop")) {
+                if (Q.isEmpty()) sb.append("-1");
                 else {
-                    answer.append(queue.peek());
-                    queue.remove();
+                    sb.append(Q.peek());
+                    Q.pop();
                 }
-                answer.append("\n");
+                sb.append("\n");
             }
-            else if (cmd.equals("size")) {
-                answer.append(queue.size()).append("\n");
+            else if (op.equals("size"))
+                sb.append(Q.size()).append("\n");
+            else if (op.equals("empty"))
+                sb.append(Q.isEmpty() ? 1 : 0).append("\n");
+            else if (op.equals("front")) {
+                if (Q.isEmpty()) sb.append("-1");
+                else sb.append(Q.peek());
+                sb.append("\n");
             }
-            else if (cmd.equals("empty")) {
-                answer.append(queue.isEmpty() ? 1 : 0).append("\n");
-            }
-            else if (cmd.equals("front")) {
-                answer.append(queue.isEmpty() ? -1 : queue.peek()).append("\n");
-            }
-            else if (cmd.equals("back")) {
-                answer.append(queue.isEmpty() ? -1 : last).append("\n");
+            else if (op.equals("back")) {
+                if (Q.isEmpty()) sb.append("-1");
+                else sb.append(Q.peekLast());
+                sb.append("\n");
             }
         }
-        System.out.print(answer);
+
+        System.out.print(sb);
     }
 }

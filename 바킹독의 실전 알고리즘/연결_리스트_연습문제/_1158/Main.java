@@ -1,38 +1,52 @@
 package 연결_리스트_연습문제._1158;
 
+import java.util.*;
 import java.io.*;
 
 public class Main {
-    static final int MX = 5005;
-    static int[] pre = new int[MX];
-    static int[] nxt = new int[MX];
-
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static ArrayList<Integer> ans = new ArrayList<>();
+    static int n, k;
+    static int[] nxt = new int[5005];
+    static int[] pre = new int[5005];
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder answer = new StringBuilder("<");
-        int n, k;
-        String[] nk = br.readLine().split(" ");
-        n = Integer.parseInt(nk[0]);
-        k = Integer.parseInt(nk[1]);
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
 
         nxt[0] = 1;
         for (int i = 1; i <= n; i++) {
-            pre[i] = (i == 1) ? n : i - 1;
-            nxt[i] = (i == n) ? 1 : i + 1;
+            nxt[i] = i == n ? 1 : i + 1;
+            pre[i] = i == 1 ? n : i - 1;
         }
 
-        // 0 1 2 3 4 5 6 7
+        // 1 2 3 4 5 6 7
         int cur = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < k-1; j++) {
+        while (ans.size() != n) {
+            for (int i = 0; i < k; i++) {
                 cur = nxt[cur];
             }
-            answer.append(nxt[cur]);
-            nxt[cur] = nxt[nxt[cur]];
-            pre[nxt[cur]] = cur;
-            if (i < n - 1) answer.append(", ");
+            ans.add(cur);
+            pre[nxt[cur]] = pre[cur];
+            nxt[pre[cur]] = nxt[cur];
         }
-        answer.append(">");
-        for (char c : answer.toString().toCharArray()) System.out.print(c);
+
+
+        traverse();
+
+
+    }
+
+    static void traverse() {
+        sb.append("<");
+        for (int i = 0; i < ans.size(); i++) {
+            sb.append(ans.get(i));
+            if (i != ans.size() - 1) sb.append(", ");
+        }
+        sb.append(">");
+
+        System.out.print(sb);
     }
 }

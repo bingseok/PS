@@ -1,19 +1,20 @@
 package 스택._01;
 
 public class Main {
-    final int MX = 1000005;
-    int[] dat = new int[MX];
-    int pos = 0;
+    final static int MX = 100005;
+    static int[] dat = new int[MX];
+    static int pos = 0;
 
-    void push(int x) {
+    static void push(int x) {
         dat[pos++] = x;
     }
 
-    void pop() {
+    static void pop() {
         pos--;
     }
 
-    int top() {
+    static int top() {
         return dat[pos-1];
     }
+
 }

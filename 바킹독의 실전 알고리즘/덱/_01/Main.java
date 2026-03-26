@@ -1,9 +1,9 @@
 package 덱._01;
 
 public class Main {
-    final int MX = 1000005;
-    int[] dat = new int[2*MX + 1];
-    int head = MX, tail = MX;
+    final static int MX = 100005;
+    static int[] dat = new int[2*MX + 1];
+    static int head = MX, tail = MX;
 
     void push_front(int x) {
         dat[--head] = x;

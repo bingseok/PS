@@ -5,33 +5,33 @@ import java.io.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int answer = 0;
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
 
     public static void main(String[] args) throws IOException {
         String s = br.readLine();
-        Stack<Character> st = new Stack<>();
-        int res = 0;
+        Deque<Character> ST = new ArrayDeque<>();
+
         char prev = ' ';
-        for (char cur : s.toCharArray()) {
-            if (cur == '(') {
-                st.push(cur);
-                res++;
-            }
-            else {
+        int ans = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') ST.push(c);
+            else if (c == ')') {
+                // 레이저인 경우
                 if (prev == '(') {
-                    st.pop();
-                    res--;
-                    answer += res;
+                    ST.pop();
+                    ans += ST.size();
                 }
+                // 막대의 끝인 경우
                 else {
-                    st.pop();
-                    res--;
-                    answer++;
+                    ST.pop();
+                    ans++;
                 }
             }
-            prev = cur;
+            prev = c;
         }
 
-        System.out.print(answer);
+        System.out.print(ans);
     }
+
 }

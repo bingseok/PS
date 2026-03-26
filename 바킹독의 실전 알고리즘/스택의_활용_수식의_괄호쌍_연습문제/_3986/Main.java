@@ -1,24 +1,28 @@
 package 스택의_활용_수식의_괄호쌍_연습문제._3986;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static int answer = 0;
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
 
     public static void main(String[] args) throws IOException {
         int n = Integer.parseInt(br.readLine());
+        int ans = 0;
         while (n-- > 0) {
-            Stack<Character> st = new Stack<>();
             String s = br.readLine();
+            Deque<Character> ST = new ArrayDeque<>();
+
             for (char c : s.toCharArray()) {
-                if (st.isEmpty() || st.peek() != c) st.push(c);
-                else if (st.peek() == c) st.pop();
+                if (ST.isEmpty() || ST.peek() != c) ST.push(c);
+                else ST.pop();
             }
-            if (st.isEmpty()) answer++;
+
+            if (ST.isEmpty()) ans++;
         }
-        System.out.print(answer);
+        System.out.print(ans);
     }
 
 }

@@ -4,59 +4,66 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static int t;
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
-        int t = Integer.parseInt(br.readLine());
+        t = Integer.parseInt(br.readLine());
         while (t-- > 0) {
             String p = br.readLine();
-            Deque<Integer> dq = new LinkedList<>();
             int n = Integer.parseInt(br.readLine());
             String arr = br.readLine();
-            int res = 0;
-            for (int i = 1; i < arr.length() - 1; i++) {
-                if (arr.charAt(i) == ',') {
-                    dq.addLast(res);
-                    res = 0;
-                }
-                else res = res * 10 + (arr.charAt(i) - '0');
-            }
-            if (n != 0) dq.addLast(res);
+            Deque<Integer> DQ = new ArrayDeque<>();
 
-            boolean rev = false, err = false;
-            for (char c : p.toCharArray()) {
-                if (c == 'R') rev = !rev;
-                else if (c == 'D') {
-                    if (dq.isEmpty()) {
+            parse(DQ, arr);
+
+            boolean rev = false;
+            boolean err = false;
+            for (char op : p.toCharArray()) {
+                if (op == 'R') rev = !rev;
+                else if (op == 'D') {
+                    if (DQ.isEmpty()) {
                         err = true;
                         break;
                     }
-                    else if (rev) dq.removeLast();
-                    else dq.removeFirst();
+                    if (rev) DQ.removeLast();
+                    else DQ.remove();
                 }
             }
 
-            if (err) sb.append("error\n");
-            else {
-                sb.append("[");
-                if (rev) {
-                    while (!dq.isEmpty()) {
-                        sb.append(dq.peekLast());
-                        if (dq.size() != 1) sb.append(",");
-                        dq.removeLast();
-                    }
-                }
-                else {
-                    while (!dq.isEmpty()) {
-                        sb.append(dq.peekFirst());
-                        if (dq.size() != 1) sb.append(",");
-                        dq.removeFirst();
-                    }
-                }
-                sb.append("]\n");
-            }
+            append_sb(err, rev, DQ);
         }
+
         System.out.print(sb);
+    }
+
+    static void append_sb(boolean err, boolean rev, Deque<Integer> DQ) {
+        if (err) {
+            sb.append("error\n");
+            return;
+        }
+        sb.append("[");
+        Iterator<Integer> it;
+        if (rev) it = DQ.descendingIterator();
+        else it = DQ.iterator();
+        while (it.hasNext()) {
+            sb.append(it.next());
+            if (it.hasNext()) sb.append(",");
+        }
+        sb.append("]\n");
+    }
+
+    static void parse(Deque<Integer> DQ, String arr) {
+        int res = 0;
+        for (int i = 1; i < arr.length() - 1; i++) {
+            if (arr.charAt(i) == ',') {
+                DQ.add(res);
+                res = 0;
+            }
+            else res = res * 10 + arr.charAt(i) - '0';
+        }
+        if (res != 0) DQ.add(res);
     }
 }

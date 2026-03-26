@@ -4,25 +4,32 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static Deque<Integer> DQ = new ArrayDeque<>();
+    static int n;
+
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder answer = new StringBuilder();
-        Stack<Integer> st = new Stack<>();
+        n = Integer.parseInt(br.readLine());
         int cur = 1;
-        int n = Integer.parseInt(br.readLine());
-        for (int i = 0; i < n; i++) {
+        while (n-- > 0) {
             int k = Integer.parseInt(br.readLine());
-            for (; cur <= k; cur++) {
-                st.push(cur);
-                answer.append("+").append("\n");
+            while (cur <= k) {
+                DQ.push(cur);
+                sb.append("+\n");
+                cur++;
             }
-            if (st.peek() != k) {
-                System.out.print("NO"); return;
+            if (DQ.peek() != k) {
+                System.out.print("NO");
+                return;
             }
-            answer.append("-").append("\n");
-            st.pop();
+            DQ.pop();
+            sb.append("-\n");
         }
 
-        System.out.print(answer);
+        System.out.print(sb);
     }
+
+
 }

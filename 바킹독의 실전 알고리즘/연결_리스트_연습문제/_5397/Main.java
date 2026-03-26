@@ -4,23 +4,26 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static LinkedList<Character> list = new LinkedList<>();
+    static int t;
+    static String op;
 
-        int n = Integer.parseInt(br.readLine());
-        for (int i = 0; i < n; i++) {
-            StringBuilder answer = new StringBuilder();
-            LinkedList<Character> list = new LinkedList<>();
-            ListIterator<Character> cursor = list.listIterator(list.size());
-            String input = br.readLine();
-            for (char c : input.toCharArray()) {
+    public static void main(String[] args) throws IOException {
+        t = Integer.parseInt(br.readLine());
+
+        while (t-- > 0) {
+            list.clear();
+            ListIterator cursor = list.listIterator();
+            op = br.readLine();
+            for (char c : op.toCharArray()) {
                 if (c == '<') {
-                    if (cursor.hasPrevious())
-                        cursor.previous();
+                    if (cursor.hasPrevious()) cursor.previous();
                 }
                 else if (c == '>') {
-                    if (cursor.hasNext())
-                        cursor.next();
+                    if (cursor.hasNext()) cursor.next();
                 }
                 else if (c == '-') {
                     if (cursor.hasPrevious()) {
@@ -32,8 +35,11 @@ public class Main {
                     cursor.add(c);
                 }
             }
-            for (char c : list) answer.append(c);
-            System.out.println(answer);
+
+            for (char c : list) sb.append(c);
+            sb.append("\n");
         }
+        System.out.print(sb);
     }
+
 }
