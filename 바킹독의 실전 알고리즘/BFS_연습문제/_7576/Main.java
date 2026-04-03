@@ -12,13 +12,13 @@ public class Main {
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
     static Deque<Pair> Q = new ArrayDeque<>();
-    static int m, n; // m : 열, n : 행
+    static int n, m;
+    static int day;
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
         m = Integer.parseInt(st.nextToken());
         n = Integer.parseInt(st.nextToken());
-
 
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
@@ -31,36 +31,34 @@ public class Main {
 
         bfs();
 
-        int res = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (dist[i][j] == -1) {
                     System.out.print(-1);
                     return;
                 }
-                res = Math.max(res, dist[i][j]);
+                day = Math.max(day, dist[i][j]);
             }
         }
-
-        System.out.print(res);
+        System.out.print(day);
     }
 
     static void bfs() {
         while (!Q.isEmpty()) {
             Pair cur = Q.peek(); Q.remove();
             for (int dir = 0; dir < 4; dir++) {
-                int nx = cur.x + dx[dir];
-                int ny = cur.y + dy[dir];
-                if (OOB(nx, ny)) continue;
-                if (board[nx][ny] != 0 || dist[nx][ny] != -1) continue;
-                dist[nx][ny] = dist[cur.x][cur.y] + 1;
-                Q.add(new Pair(nx, ny));
+                int x = cur.x + dx[dir];
+                int y = cur.y + dy[dir];
+                if (OOB(x, y)) continue;
+                if (board[x][y] != 0 || dist[x][y] != -1) continue;
+                dist[x][y] = dist[cur.x][cur.y] + 1;
+                Q.add(new Pair(x, y));
             }
         }
     }
 
-    static boolean OOB(int nx, int ny) {
-        return nx < 0 || nx >= n || ny < 0 || ny >= m;
+    static boolean OOB(int x, int y) {
+        return x < 0 || x >= n || y < 0 || y >= m;
     }
     static class Pair {
         int x, y;
@@ -68,4 +66,5 @@ public class Main {
             this.x = x; this.y = y;
         }
     }
+
 }

@@ -7,19 +7,17 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringBuilder sb = new StringBuilder();
     static StringTokenizer st;
-    static int[][] board = new int[502][502];
-    static int[][] vis = new int[502][502];
+    static int[][] board = new int[505][505];
+    static int[][] vis = new int[505][505];
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
-    static Deque<Pair> Q = new ArrayDeque<>();
     static int n, m;
-    static int cnt, mx;
+    static int res, cnt;
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < m; j++) {
@@ -35,17 +33,18 @@ public class Main {
             }
         }
 
-        System.out.print(cnt + "\n" + mx);
+        System.out.print(cnt + "\n" + res);
     }
 
     static void bfs(int i, int j) {
-        int size = 0;
+        int area = 0;
         cnt++;
+        Deque<Pair> Q = new ArrayDeque<>();
         vis[i][j] = 1;
         Q.add(new Pair(i, j));
         while (!Q.isEmpty()) {
-            Pair cur = Q.peek();
-            Q.remove(); size++;
+            Pair cur = Q.peek(); Q.remove();
+            area++;
             for (int dir = 0; dir < 4; dir++) {
                 int nx = cur.x + dx[dir];
                 int ny = cur.y + dy[dir];
@@ -56,11 +55,11 @@ public class Main {
             }
         }
 
-        mx = Math.max(mx, size);
+        res = Math.max(area, res);
     }
 
-    static boolean OOB(int nx, int ny) {
-        return nx < 0 || nx >= n || ny < 0 || ny >= m;
+    static boolean OOB(int x, int y) {
+        return x < 0 || x >= n || y < 0 || y >= m;
     }
     static class Pair {
         int x, y;

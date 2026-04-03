@@ -5,8 +5,11 @@ import java.io.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static char[][] board = new char[102][102];
-    static int[][] vis = new int[102][102];
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
+    static char[][] board = new char[105][105];
+    static int[][] vis = new int[105][105];
+    static Queue<Pair> Q = new ArrayDeque<>();
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
     static int n;
@@ -14,76 +17,67 @@ public class Main {
     public static void main(String[] args) throws IOException {
         n = Integer.parseInt(br.readLine());
         for (int i = 0; i < n; i++) {
-            String tmp = br.readLine();
-            for (int j = 0; j < n; j++)
-                board[i][j] = tmp.charAt(j);
+            String s = br.readLine();
+            for (int j = 0; j < n; j++) {
+                board[i][j] = s.charAt(j);
+            }
         }
 
-        // 적록색약이 아닌 사람
-        int num = 0;
-        Queue<Pair> Q = new ArrayDeque<>();
+        int res1 = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (vis[i][j] == 0) {
-                    Q.add(new Pair(i, j));
-                    vis[i][j] = 1;
-                    num++;
-                    while (!Q.isEmpty()) {
-                        Pair cur = Q.peek(); Q.remove();
-                        for (int dir = 0; dir < 4; dir++) {
-                            int nx = cur.x + dx[dir];
-                            int ny = cur.y + dy[dir];
-                            if (nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-                            if (board[nx][ny] != board[cur.x][cur.y] || vis[nx][ny] != 0) continue;
-                            Q.add(new Pair(nx, ny));
-                            vis[nx][ny] = 1;
-                        }
-                    }
+                    res1++;
+                    bfs(i, j);
                 }
             }
         }
 
-        System.out.print(num + " ");
-        num = 0;
+        int res2 = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (board[i][j] == 'G') board[i][j] = 'R';
+            }
+        }
 
-        for (int i = 0; i < n; i++) Arrays.fill(vis[i], 0);
         Q.clear();
-
+        for (int i = 0; i < n; i++) Arrays.fill(vis[i], 0, n, 0);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (vis[i][j] == 0) {
-                    Q.add(new Pair(i, j));
-                    vis[i][j] = 1;
-                    num++;
-                    while (!Q.isEmpty()) {
-                        Pair cur = Q.peek(); Q.remove();
-                        for (int dir = 0; dir < 4; dir++) {
-                            int nx = cur.x + dx[dir];
-                            int ny = cur.y + dy[dir];
-                            if (nx < 0 || nx >= n || ny < 0 || ny >= n) continue;
-                            if (board[cur.x][cur.y] == 'B') {
-                                if (board[nx][ny] != board[cur.x][cur.y]) continue;
-                            }
-                            else {
-                                if (board[nx][ny] == 'B') continue;
-                            }
-                            if (vis[nx][ny] != 0) continue;
-                            Q.add(new Pair(nx, ny));
-                            vis[nx][ny] = 1;
-                        }
-                    }
+                    res2++;
+                    bfs(i, j);
                 }
             }
         }
 
-        System.out.print(num);
-
+        System.out.print(res1 + " " + res2);
     }
 
+    static void bfs(int i, int j) {
+        vis[i][j] = 1;
+        Q.add(new Pair(i, j));
+        while (!Q.isEmpty()) {
+            Pair cur = Q.peek(); Q.remove();
+            for (int dir = 0; dir < 4; dir++) {
+                int nx = cur.x + dx[dir];
+                int ny = cur.y + dy[dir];
+                if (OOB(nx, ny)) continue;
+                if (board[nx][ny] != board[cur.x][cur.y] || vis[nx][ny] != 0) continue;
+                vis[nx][ny] = 1;
+                Q.add(new Pair(nx, ny));
+            }
+        }
+    }
+
+    static boolean OOB(int x, int y) {
+        return x < 0 || x >= n || y < 0 || y >= n;
+    }
     static class Pair {
-        int x; int y;
+        int x, y;
         Pair(int x, int y) {
             this.x = x; this.y = y;
         }
     }
+
 }
