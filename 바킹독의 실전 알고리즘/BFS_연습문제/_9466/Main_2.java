@@ -1,13 +1,15 @@
-package BFS_연습문제._9466_1;
+package BFS_연습문제._9466;
 
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
-public class Main_R {
+public class Main_2 {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
     static int t, n;
-    static int[] arr = new int[100002];
-    static int[] vis = new int[100002];
+    static int[] board = new int[100005];
+    static int[] vis = new int[100005];
     final static int NOT_VISITED = 0;
     final static int IN_CYCLE = -1;
 
@@ -15,35 +17,40 @@ public class Main_R {
         t = Integer.parseInt(br.readLine());
         while (t-- > 0) {
             n = Integer.parseInt(br.readLine());
-            Arrays.fill(vis, 1, n+1, NOT_VISITED);
-            StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int i = 1; i <= n; i++) arr[i] = Integer.parseInt(st.nextToken());
+            st = new StringTokenizer(br.readLine());
+            for (int i = 1; i <= n; i++) {
+                board[i] = Integer.parseInt(st.nextToken());
+            }
+
+            Arrays.fill(vis, 1, n+1, 0);
 
             for (int i = 1; i <= n; i++) {
                 if (vis[i] == NOT_VISITED) run(i);
             }
 
-            int sum = 0;
+            int ans = 0;
             for (int i = 1; i <= n; i++) {
-                if (vis[i] != IN_CYCLE) sum++;
+                if (vis[i] != IN_CYCLE) ans++;
             }
-            System.out.println(sum);
+            sb.append(ans).append("\n");
         }
+        System.out.print(sb);
     }
 
-    public static void run(int x) {
+    static void run(int x) {
         int cur = x;
         while (true) {
             vis[cur] = x;
-            cur = arr[cur];
-
+            cur = board[cur];
             if (vis[cur] == x) {
                 while (vis[cur] != IN_CYCLE) {
                     vis[cur] = IN_CYCLE;
-                    cur = arr[cur];
+                    cur = board[cur];
                 }
+                return;
             }
-            else if (vis[cur] != NOT_VISITED) return;
+            else if (vis[cur] != 0) return;
         }
     }
 }
+
