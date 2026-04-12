@@ -1,44 +1,51 @@
 package BFS_연습문제._13549;
 
-
-import java.io.*;
 import java.util.*;
-
-import java.io.IOException;
+import java.io.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
     static StringTokenizer st;
-    static int[] dist = new int[100005];
+    final static int MX = 100001;
+    static int[] board = new int[MX+2];
+    static Queue<Integer> Q = new ArrayDeque<>();
     static int n, k;
-    final static int MX = 100000;
-    static Deque<Integer> DQ = new ArrayDeque<>();
+
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
 
-        Arrays.fill(dist, -1);
-        DQ.addLast(n);
-        dist[n] = 0;
+        board[n] = 1;
+        Q.add(n);
+        teleport(n);
 
-        while (!DQ.isEmpty() && dist[k] == -1) {
-            int cur = DQ.peekFirst(); DQ.removeFirst();
-            // 순간이동
-            if (2*cur <= MX && dist[2*cur] == -1) {
-                dist[2*cur] = dist[cur];
-                DQ.addFirst(2*cur);
-            }
-
-            // 양옆으로 이동
-            int[] dir = {cur-1, cur+1};
-            for (int x : dir) {
-                if (x < 0 || x > MX || dist[x] != -1) continue;
-                dist[x] = dist[cur] + 1;
-                DQ.addLast(x);
+        while (board[k] == 0) {
+            int cur = Q.peek(); Q.remove();
+            int[] dx = {cur+1, cur-1};
+            for (int x : dx) {
+                if (x < 0 || x >= MX) continue;
+                if (board[x] != 0) continue;
+                board[x] = board[cur] + 1;
+                Q.add(x);
+                teleport(x);
             }
         }
 
-        System.out.print(dist[k]);
+        System.out.print(board[k] - 1);
     }
+
+    static void teleport(int n) {
+        if (n == 0) return;
+        int cur = n;
+        while (cur <= MX && board[k] == 0) {
+            if (board[cur] == 0) {
+                board[cur] = board[n];
+                Q.add(cur);
+            }
+            cur *= 2;
+        }
+    }
+
 }

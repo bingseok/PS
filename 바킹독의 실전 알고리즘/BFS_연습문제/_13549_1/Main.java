@@ -5,45 +5,40 @@ import java.io.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
     static StringTokenizer st;
-    static int[] dist = new int[100005];
+    static final int MX = 100001;
+    static int[] board = new int[MX + 2];
+    static Deque<Integer> DQ = new ArrayDeque<>();
     static int n, k;
-    final static int MX = 100000;
-    static Queue<Integer> q = new ArrayDeque<>();
 
-    static void teleport(int cur) {
-        int tmp = cur;
-        if (tmp == 0) return;
-        while (tmp <= MX && dist[k] == -1) {
-            if (dist[tmp] == -1) {
-                dist[tmp] = dist[cur];
-                q.add(tmp);
-            }
-            tmp *= 2;
-        }
-    }
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         k = Integer.parseInt(st.nextToken());
 
-        Arrays.fill(dist, -1);
-        dist[n] = 0;
-        q.add(n);
-        teleport(n);
+        board[n] = 1;
+        DQ.addFirst(n);
 
-        while (dist[k] == -1) {
-            int cur = q.peek(); q.remove();
-            int[] dir = {cur+1, cur-1};
-            for (int k : dir) {
-                if (k < 0 || k > MX) continue;
-                if (dist[k] != -1) continue;
-                dist[k] = dist[cur] + 1;
-                q.add(k);
-                teleport(k);
+        while (board[k] == 0) {
+            int cur = DQ.peekFirst(); DQ.removeFirst();
+            int[] dx = {cur-1, cur+1, 2*cur};
+            for (int x : dx) {
+                if (x < 0 || x >= MX) continue;
+                if (board[x] != 0) continue;
+                if (x == 2*cur) {
+                    board[x] = board[cur];
+                    DQ.addFirst(x);
+                }
+                else {
+                    board[x] = board[cur] + 1;
+                    DQ.addLast(x);
+                }
             }
         }
 
-        System.out.print(dist[k]);
+        System.out.print(board[k] - 1);
     }
+
+
 }
