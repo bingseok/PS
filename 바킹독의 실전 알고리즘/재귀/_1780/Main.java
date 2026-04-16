@@ -5,6 +5,7 @@ import java.io.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
     static StringTokenizer st;
     static int n;
     static int[][] board;
@@ -12,8 +13,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         n = Integer.parseInt(br.readLine());
-        board = new int[n][n];
-
+        board = new int[n+1][n+1];
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
             for (int j = 0; j < n; j++) {
@@ -21,34 +21,36 @@ public class Main {
             }
         }
 
-        run(n, 0, 0);
-
+        func(0, 0, n);
         for (int i : arr) System.out.println(i);
     }
 
-    // row행 col열부터 시작해서 크기가 n x n인 배열에서 종이의 개수를 구하는 함수
-    static void run(int n, int row, int col) {
-        // 첫 번째 원소의 값
-        int first = board[row][col];
-        if (n == 1) {
-            arr[first]++;
+    static void func(int r, int c, int n) {
+        if (check(r, c, n)) {
+            arr[board[r][c]]++;
             return;
         }
+        int k = n / 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                func(r + i*k, c + j*k, k);
+            }
+        }
+    }
 
+    static boolean check(int r, int c, int n) {
+        boolean check = true;
+        int start = board[r][c];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (board[i+row][j+col] != first) {
-                    for (int k = 0; k < 3; k++) {
-                        for (int l = 0; l < 3; l++) {
-                            run(n/3, row + (n/3)*k, col + (n/3)*l);
-                        }
-                    }
-                    return;
-                }
+                if (board[r + i][c + j] != start)
+                    return false;
             }
-
         }
-
-        arr[first]++;
+        return true;
     }
+
+
+
+
 }

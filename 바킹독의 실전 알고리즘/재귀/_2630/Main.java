@@ -7,42 +7,37 @@ public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     static StringTokenizer st;
     static int n;
-    static int[][] board = new int[128][128];
+    static int[][] board = new int[130][130];
     static int[] arr = new int[2];
 
     public static void main(String[] args) throws IOException {
         n = Integer.parseInt(br.readLine());
-
         for (int i = 0; i < n; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j++)
                 board[i][j] = Integer.parseInt(st.nextToken());
-            }
         }
 
-        run(n, 0, 0);
+        func(0, 0, n);
         for (int i : arr) System.out.println(i);
     }
 
-    static boolean check(int n, int row, int col) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (board[row+i][col+j] != board[row][col]) return false;
-            }
+    static void func(int r, int c, int n) {
+        if (check(r, c, n))
+            arr[board[r][c]]++;
+        else {
+            int z = n/2;
+            for (int i = 0; i < 2; i++)
+                for (int j = 0; j < 2; j++)
+                    func(r + i*z, c + j*z, z);
         }
+    }
+
+    static boolean check(int r, int c, int n) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                if (board[r+i][c+j] != board[r][c]) return false;
         return true;
     }
 
-    static void run(int n, int row, int col) {
-        if (check(n, row, col)) {
-            arr[board[row][col]]++;
-            return;
-        }
-
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                run(n/2, row + (n/2) * i, col + (n/2) * j);
-            }
-        }
-    }
 }

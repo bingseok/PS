@@ -5,8 +5,9 @@ import java.io.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    static StringBuilder sb = new StringBuilder();
     static StringTokenizer st;
-    static int a, b, c;
+    static long a, b, c;
 
     public static void main(String[] args) throws IOException {
         st = new StringTokenizer(br.readLine());
@@ -24,6 +25,8 @@ public class Main {
         if (b % 2 == 0) return val;
         else return val * a % c;
     }
+
+
 
 
 }
